@@ -43,6 +43,11 @@ async function main(){
 await browser.close();
 }
 async function downloadEachWord(word, browser){
+    const wordsalreaddy = fs.readdirSync(path.join(__dirname, 'words')).map(file => path.parse(file).name);
+    if (wordsalreaddy.includes(word)) {
+        console.log(`Word ${word} already downloaded, skipping.`);
+        return;
+    }
     const page = await browser.newPage();
     await page.goto('https://www.merriam-webster.com/dictionary/'
         + word.toLowerCase());
